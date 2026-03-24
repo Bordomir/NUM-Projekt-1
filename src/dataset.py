@@ -11,13 +11,19 @@ class CustomImageDataset(Dataset):
         self.transform = transform
         self.image_paths = []
         self.labels = []
+
+        sorted_folders = sorted([d for d in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, d))])
         
-        for label, class_name in enumerate(os.listdir(data_dir)):
+        for label, class_name in enumerate(sorted_folders):
             class_dir = os.path.join(data_dir, class_name)
-            if os.path.isdir(class_dir):
-                for img_name in os.listdir(class_dir):
-                    self.image_paths.append(os.path.join(class_dir, img_name))
-                    self.labels.append(label)
+            for img_name in os.listdir(class_dir):
+                if not img_name.lower().endswith((".jpg", ".jpeg", ".png")):
+                    continue
+                img_path = os.path.join(class_dir, img_name) 
+                if not os.path.getsize(img_path) > 0:
+                    continue
+                self.image_paths.append(img_path)
+                self.labels.append(label)
 
     def __len__(self):
         return len(self.image_paths)
