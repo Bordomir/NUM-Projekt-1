@@ -1,9 +1,6 @@
 torch>=2.0.0
+Pillow
 torchvision
 pytorch-lightning
 kagglehub
-Pillow
-wandb
-optuna
-pandas
-matplotlib
+mlflow
