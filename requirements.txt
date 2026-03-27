@@ -4,3 +4,4 @@ torchvision
 pytorch-lightning
 kagglehub
 mlflow
+optuna

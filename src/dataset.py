@@ -29,8 +29,18 @@ class CustomImageDataset(Dataset):
                 img_path = os.path.join(class_dir, img_name)
                 if not os.path.getsize(img_path) > 0:
                     continue
+
+                try:
+                    with Image.open(img_path) as img:
+                        img.load()
+                except Exception:
+                    print(f"Bad file: {img_path}")
+                    continue
+
                 self.image_paths.append(img_path)
                 self.labels.append(label)
+
+        print(f"Number of images: {len(self.image_paths)}")
 
     def __len__(self):
         return len(self.image_paths)

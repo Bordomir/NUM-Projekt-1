@@ -6,7 +6,7 @@ import torch
 import torchvision.transforms.v2 as v2
 from torch.utils.data import DataLoader, random_split
 
-from dataset import CustomImageDataset
+from .dataset import CustomImageDataset
 
 
 class CatVSDogDataModule(pl.LightningDataModule):
@@ -49,15 +49,22 @@ class CatVSDogDataModule(pl.LightningDataModule):
             self.train,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
+            persistent_workers=True,
             shuffle=True,
         )
 
     def val_dataloader(self):
         return DataLoader(
-            self.val, batch_size=self.batch_size, num_workers=self.num_workers
+            self.val,
+            batch_size=self.batch_size * 4,
+            num_workers=self.num_workers,
+            persistent_workers=True,
         )
 
     def test_dataloader(self):
         return DataLoader(
-            self.test, batch_size=self.batch_size, num_workers=self.num_workers
+            self.test,
+            batch_size=self.batch_size,
+            num_workers=self.num_workers,
+            persistent_workers=True,
         )
